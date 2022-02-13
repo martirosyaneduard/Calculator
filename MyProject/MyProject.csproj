@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container\MyCalculator.cs" />
-    <Compile Include="Container\SIzeConsole.cs" />
     <Compile Include="Container\State.cs" />
     <Compile Include="Operations\DivideOperation.cs" />
     <Compile Include="Operations\IOperation.cs" />

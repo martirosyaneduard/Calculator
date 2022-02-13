@@ -6,7 +6,6 @@ namespace MyProject.Container
 {
     public class MyCalculator
     {
-        public SIzeConsole Size { get; set; }
         private State _state { get; set; }
         private IOperation _operation { get; set; }
         private Dictionary<string, double> _history { get; set; }
@@ -15,10 +14,6 @@ namespace MyProject.Container
             _history = new Dictionary<string, double>();
             _state = State.Vertical;
         }
-        private double Call(double x, double y)
-        {
-            return _operation.Operate(x, y);
-        }
 
         public void Start()
         {
@@ -26,25 +21,8 @@ namespace MyProject.Container
             ChosseState();
             while (true)
             {
-
-                Console.Clear();
-                Console.WriteLine("History");
-                foreach (var his in _history)
-                {
-                    Console.WriteLine($"{his.Key} {his.Value}");
-                }
-                Console.WriteLine();
-                double number1 = InputNumber("Input first number!");
-                double number2 = InputNumber($"Input second number!");
-                Console.WriteLine("Chosse the one of this operations!");
-                if (this._state == State.Vertical)
-                {
-                    Console.WriteLine("1. -> /\t2. -> *\t3. -> -\t4. -> +\tExit -> Esc");
-                }
-                else if (this._state == State.Horizontal)
-                {
-                    Console.WriteLine("1. -> /\t2. -> *\t3. -> -\t4. -> +\t5. -> %\tExit -> Esc");
-                }
+                PrintHistory();
+                ViewOperations();
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
@@ -75,22 +53,55 @@ namespace MyProject.Container
                         WrongInput();
                         break;
                 }
-                double item = this.Call(number1, number2);
-                string str = $"{number1} {sign} {number2} =";
-                Console.WriteLine();
-                Console.WriteLine($"{str} {item}");
-                try
-                {
-                _history.Add(str, item);
-                }
-                catch (Exception e)
-                {
-
-                    Console.WriteLine(e.Message);
-                }
-                Console.ReadKey();
-
+                AddHistory(sign);
             }
+        }
+        private void AddHistory(char sign)
+        {
+            double number1 = InputNumber("Input first number!");
+            double number2 = InputNumber($"Input second number!");
+            double item = this.Call(number1, number2);
+            string str = $"{number1} {sign} {number2} =";
+            Console.WriteLine();
+            Console.WriteLine($"{str} {item}");
+            try
+            {
+                _history.Add(str, item);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+            Console.ReadKey();
+        }
+        private double Call(double x, double y)
+        {
+            return _operation.Operate(x, y);
+        }
+        private void ViewOperations()
+        {
+            Console.WriteLine("Chosse the one of this operations!");
+            if (this._state == State.Vertical)
+            {
+                Console.WriteLine("1. -> /\t2. -> *\t3. -> -\t4. -> +\tExit -> Esc");
+            }
+            else if (this._state == State.Horizontal)
+            {
+                Console.WriteLine("1. -> /\t2. -> *\t3. -> -\t4. -> +\t5. -> %\tExit -> Esc");
+            }
+            Console.WriteLine();
+        }
+        private void PrintHistory()
+        {
+            Console.Clear();
+            Console.WriteLine("History");
+            foreach (var his in _history)
+            {
+                Console.WriteLine($"{his.Key} {his.Value}");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
         }
         private void ChosseState()
         {
