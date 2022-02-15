@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 namespace MyProject.Container
 {
-    public class MyCalculator
+    public class MyCalculator:IMyCalculator
     {
+        private readonly IEnumerable<IOperation> _operations;
         private State _state { get; set; }
         private IOperation _operation { get; set; }
         private Dictionary<string, double> _history { get; set; }
-        public MyCalculator()
+        public MyCalculator(IEnumerable<IOperation> operations)
         {
+            this._operations = operations;
             _history = new Dictionary<string, double>();
             _state = State.Vertical;
         }
@@ -18,6 +20,7 @@ namespace MyProject.Container
         public void Start()
         {
             char sign = ' ';
+            PrintOperations();
             ChosseState();
             while (true)
             {
@@ -142,6 +145,15 @@ namespace MyProject.Container
             Console.WriteLine("Wrong Input:Try to again.");
             Console.ReadKey();
             Console.Clear();
+        }
+        private void PrintOperations()
+        {
+            foreach (IOperation item in _operations)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
     }

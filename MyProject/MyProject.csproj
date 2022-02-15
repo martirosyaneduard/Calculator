@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Container\CalculatorCreater.cs" />
+    <Compile Include="Container\ICalculatorCreator.cs" />
+    <Compile Include="Container\IMyCalculator.cs" />
     <Compile Include="Container\MyCalculator.cs" />
     <Compile Include="Container\State.cs" />
     <Compile Include="Operations\DivideOperation.cs" />
@@ -57,5 +60,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

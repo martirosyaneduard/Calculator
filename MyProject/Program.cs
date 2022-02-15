@@ -11,8 +11,10 @@ namespace MyProject
         }
         public static void Go()
         {
-            MyCalculator calculator = new MyCalculator();
+            ICalculatorCreator creator = new CalculatorCreater();
+            IMyCalculator calculator = creator.CreateCalculator();
             calculator.Start();
+
             Console.ReadKey();
         }
     }
