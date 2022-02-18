@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C89D71B0-9943-4054-8636-85D0A434416F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MyProject</RootNamespace>
-    <AssemblyName>MyProject</AssemblyName>
+    <ProjectGuid>{DED2C2C1-D927-453B-A70C-5F1341CC96CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Library</RootNamespace>
+    <AssemblyName>Library</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,26 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\CalculatorCreater.cs" />
-    <Compile Include="Container\ICalculatorCreator.cs" />
-    <Compile Include="Container\IMyCalculator.cs" />
-    <Compile Include="Container\MyCalculator.cs" />
-    <Compile Include="Container\State.cs" />
-    <Compile Include="Operations\DivideOperation.cs" />
-    <Compile Include="Operations\MultiplyOperation.cs" />
-    <Compile Include="Operations\SubtractOperation.cs" />
-    <Compile Include="Operations\SumOperation.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Library\Library.csproj">
-      <Project>{ded2c2c1-d927-453b-a70c-5f1341cc96cc}</Project>
-      <Name>Library</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

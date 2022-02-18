@@ -1,10 +1,11 @@
 ﻿using MyProject.Operations;
 using System;
 using System.Collections.Generic;
+using Library;
 
 namespace MyProject.Container
 {
-    public class MyCalculator:IMyCalculator
+    public class MyCalculator : IMyCalculator
     {
         private readonly IEnumerable<IOperation> _operations;
         private State _state { get; set; }
@@ -14,62 +15,46 @@ namespace MyProject.Container
         {
             this._operations = operations;
             _history = new Dictionary<string, double>();
-            _state = State.Vertical;
         }
 
         public void Start()
         {
-            char sign = ' ';
-            PrintOperations();
             ChosseState();
             while (true)
             {
                 PrintHistory();
                 ViewOperations();
-                ConsoleKey key = Console.ReadKey().Key;
-                switch (key)
+                Console.WriteLine("Input Operation Key");
+                ConsoleKeyInfo keyinfo = Console.ReadKey();
+                if (keyinfo.Key == ConsoleKey.Escape)
                 {
-                    case ConsoleKey.Divide:
-                        _operation = new DivideOperation();
-                        sign = '/';
-                        break;
-                    case ConsoleKey.Multiply:
-                        _operation = new MultiplyOperation();
-                        sign = '*';
-                        break;
-                    case ConsoleKey.Subtract:
-                        _operation = new SubtractOperation();
-                        sign = '-';
-                        break;
-                    case ConsoleKey.Add:
-                        _operation = new SumOperation();
-                        sign = '+';
-                        break;
-                    case ConsoleKey.D5:
-                        _operation = new RemainderOperation();
-                        sign = '%';
-                        break;
-                    case ConsoleKey.Escape:
-                        Console.ReadKey();
-                        return;
-                    default:
-                        WrongInput();
-                        break;
+                    Console.WriteLine("End Program");
+                    return;
                 }
-                AddHistory(sign);
+                foreach (var item in _operations)
+                {
+                    if (item.Sign == keyinfo)
+                    {
+                        _operation = item;
+                    }
+                }
+                AddHistory(keyinfo);
             }
+
         }
-        private void AddHistory(char sign)
+        private void AddHistory(ConsoleKeyInfo keyinfo)
         {
+            Console.ReadKey();
+            Console.WriteLine();
             double number1 = InputNumber("Input first number!");
             double number2 = InputNumber($"Input second number!");
-            double item = this.Call(number1, number2);
-            string str = $"{number1} {sign} {number2} =";
+            double result = this.Call(number1, number2);
+            string str = $"{number1} {keyinfo.KeyChar} {number2} =";
             Console.WriteLine();
-            Console.WriteLine($"{str} {item}");
+            Console.WriteLine($"{str} {result}");
             try
             {
-                _history.Add(str, item);
+                _history.Add(str, result);
             }
             catch (Exception e)
             {
@@ -91,7 +76,13 @@ namespace MyProject.Container
             }
             else if (this._state == State.Horizontal)
             {
-                Console.WriteLine("1. -> /\t2. -> *\t3. -> -\t4. -> +\t5. -> %\tExit -> Esc");
+                int index = 1;
+                foreach (IOperation item in _operations)
+                {
+                    Console.Write($"{index++}.-> {item.Sign.KeyChar}\t\t");
+                }
+                Console.Write($"Exit -> Esc");
+
             }
             Console.WriteLine();
         }
@@ -122,7 +113,7 @@ namespace MyProject.Container
                     this._state = State.Horizontal;
                     break;
                 default:
-                    WrongInput();
+                    this._state = State.Vertical;
                     break;
             }
             Console.ReadKey();
@@ -139,22 +130,7 @@ namespace MyProject.Container
             }
             return number;
         }
-        private void WrongInput()
-        {
-            Console.Clear();
-            Console.WriteLine("Wrong Input:Try to again.");
-            Console.ReadKey();
-            Console.Clear();
-        }
-        private void PrintOperations()
-        {
-            foreach (IOperation item in _operations)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine();
-            Console.WriteLine();
-        }
+
 
     }
 }
